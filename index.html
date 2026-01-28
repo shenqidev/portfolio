@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="scroll-behavior: smooth;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,22 +10,30 @@
 <body>
     <!-- Background Video -->
     <div class="video-background">
-        <video autoplay muted loop id="bgVideo">
+        <video autoplay muted loop playsinline id="bgVideo">
             <source src="https://files.catbox.moe/b5c4y4.mp4" type="video/mp4">
         </video>
         <div class="video-overlay"></div>
     </div>
 
     <!-- Music Player -->
-    <div class="music-controls">
+    <div class="music-controls" id="musicControls">
         <audio id="bgMusic" loop>
             <source src="https://files.catbox.moe/ihsojr.mp3" type="audio/mpeg">
         </audio>
-        <button id="musicToggle" onclick="toggleMusic()">
+        <button class="music-toggle-btn" id="musicToggleBtn" onclick="toggleMusicPanel()">
             <i class="fas fa-music"></i>
-            <span id="musicStatus">Play Music</span>
         </button>
-        <input type="range" id="volumeControl" min="0" max="100" value="50" onchange="changeVolume(this.value)">
+        <div class="music-panel" id="musicPanel">
+            <button class="music-play-btn" id="musicPlayBtn" onclick="toggleMusic()">
+                <i class="fas fa-play" id="playIcon"></i>
+            </button>
+            <div class="volume-container">
+                <i class="fas fa-volume-down"></i>
+                <input type="range" id="volumeControl" min="0" max="100" value="50" onchange="changeVolume(this.value)">
+                <i class="fas fa-volume-up"></i>
+            </div>
+        </div>
     </div>
 
     <!-- Server Status -->
@@ -185,6 +193,45 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
             <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Order Form Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOrderModal()">&times;</span>
+            <div class="order-form-container">
+                <h2>Complete Your Order</h2>
+                <p class="order-subtitle">Please provide your contact details</p>
+                
+                <form id="orderForm" onsubmit="submitOrder(event)">
+                    <div class="form-group">
+                        <label for="customerEmail">
+                            <i class="fas fa-envelope"></i> Email Address *
+                        </label>
+                        <input type="email" id="customerEmail" required placeholder="your@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customerTelegram">
+                            <i class="fab fa-telegram"></i> Telegram Username (Optional)
+                        </label>
+                        <input type="text" id="customerTelegram" placeholder="@username">
+                    </div>
+
+                    <div class="order-summary">
+                        <h3>Order Summary</h3>
+                        <div id="orderSummaryItems"></div>
+                        <div class="order-total-section">
+                            <strong>Total: $<span id="orderTotalAmount">0.00</span>/mo</strong>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-order-btn">
+                        <i class="fas fa-paper-plane"></i> Place Order
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
